@@ -10,7 +10,7 @@ Since the aforementiond script requires all transactions within a block to be pr
 
 ## Usage
 
-A test script along with test data is provided to check the functionality of the GetShortTxID function. The directory `blockshorttxids` contains subdirectories where the label of each subdirectory is the hash of a block. Within each subdirectory is a file containing the [left and right halves of the SipHash key](https://gitlab.com/bitcoinunlimited/BCHUnlimited/-/blob/dev/doc/graphene-specification-v2.2.mediawiki#CGrapheneSet), `shorttxidk0` and `shorttxidk1` respectively, and the short tx ids of transactions which need to be resolved. For each full transaction hash in the block of interest, call the function `GetShortTxID(shorttxidk0, shorttxidk1, fulltxhash)` to find the short tx id of the hash. Check if this short tx id is present in the file corresponding to the block hash.
+A test script along with test data is provided to check the functionality of the `GetShortTxID` function. The directory `blockshorttxids` contains subdirectories where the label of each subdirectory is the hash of a block. Within each subdirectory is a file containing the [left and right halves of the SipHash key](https://gitlab.com/bitcoinunlimited/BCHUnlimited/-/blob/dev/doc/graphene-specification-v2.2.mediawiki#CGrapheneSet), `shorttxidk0` and `shorttxidk1` respectively, and the short tx ids of transactions which need to be resolved. For each full transaction hash in the block of interest, call the function `GetShortTxID(shorttxidk0, shorttxidk1, fulltxhash)` to find the short tx id of the hash. Check if this short tx id is present in the file corresponding to the block hash.
 
 ## Epilogue
 
