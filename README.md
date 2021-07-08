@@ -8,4 +8,10 @@ It may be necessary to resolve the short ids to the full transaction hashes for,
 
 Since the aforementiond script requires all transactions within a block to be present, another Python script, named `GetBlockTxs`, is provided that scraps the [Bitcoin Unlimited Explorer](https://explorer.bitcoinunlimited.info/) to acquire transactions present in the block. Path to a file containing hashes of blocks of interest must be provided to the script. The script requires [selenium](https://www.selenium.dev/) for which install instructions are provided [here](https://selenium-python.readthedocs.io/installation.html).
 
+## Usage
+
 A test script along with test data is provided to check the functionality of the GetShortTxID function. The directory `blockshorttxids` contains subdirectories where the label of each subdirectory is the hash of a block. Within each subdirectory is a file containing the [left and right halves of the SipHash key](https://gitlab.com/bitcoinunlimited/BCHUnlimited/-/blob/dev/doc/graphene-specification-v2.2.mediawiki#CGrapheneSet), `shorttxidk0` and `shorttxidk1` respectively, and the short tx ids of transactions which need to be resolved. For each full transaction hash in the block of interest, call the function `GetShortTxID(shorttxidk0, shorttxidk1, fulltxhash)` to find the short tx id of the hash. Check if this short tx id is present in the file corresponding to the block hash.
+
+## Epilogue
+
+Please provide feedback on the tool and report issues, if you find any. Your contributions are welcome!
