@@ -2,7 +2,6 @@
 
 from argparse import ArgumentParser
 from selenium import webdriver
-from selenium.webdriver.firefox.options import Options
 from tqdm import tqdm
 import os
 import time
@@ -12,7 +11,9 @@ parser = ArgumentParser(description="Crawl Bitcoin Unlimited explorer to retriev
 parser.add_argument('ipath', type=str, help="/path/to/file/containing/block/hashes")
 parser.add_argument('opath', help="/path/to/dir/for/output/files")
 parser.add_argument('-t', '--timeout', type=float, help="time to wait (in seconds) for transaction ids to load (default: 1 second)", default=1)
-parser.add_argument('-n', '--no-headless', action='store_true', default=False, help="do not run Firefox headless (default: run headless)")
+parser.add_argument('-n', '--no-headless', action='store_true', default=False, help="do not run browser in headless mode (default: run in headless mode)")
+parser.add_argument('-c', '--use-chrome', action='store_true', default=False, help="use chrome browser to scrap data")
+parser.add_argument('-e', '--use-edge', action='store_true', default=False, help="use edge browser to scrap data")
 
 args = parser.parse_args()
 
@@ -36,10 +37,27 @@ if not os.path.exists(opath):
     print(">> INFO -- creating dir <{}> for output files".format(opath))
     os.mkdir(opath)
 
-options = Options()
-if not args.no_headless:
-    options.headless = True
-driver = webdriver.Firefox(options=options)
+driver = None
+if args.use_chrome:
+    from selenium.webdriver.chrome.options import Options
+    options = Options()
+    options.headless = not args.no_headless
+    driver = webdriver.Chrome(options=options)
+elif args.use_edge:
+    from msedge.selenium_tools import EdgeOptions, Edge
+    options = EdgeOptions()
+    options.use_chromium = True
+    if not args.no_headless:
+        options.add_argument("--headless")
+        options.add_argument("disable-gpu")
+    driver = Edge(options=options)
+else:
+    from selenium.webdriver.firefox.options import Options
+    options = Options()
+    options.headless = not args.no_headless
+    driver = webdriver.Firefox(options=options)
+
+assert(driver is not None)
 
 print(">> INFO -- crawling Bitcoin Unlimited explorer for block transactions")
 for blockhash in tqdm(blockhashes):
